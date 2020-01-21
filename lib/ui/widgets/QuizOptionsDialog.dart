@@ -160,6 +160,7 @@ class _QuizOptionsDialogState extends State<QuizOptionsDialog> {
           builder: (_) => QuizScreen(
             questions: questions,
             category: widget.category,
+            difficulty: _difficulty,
           ),
         ),
       );

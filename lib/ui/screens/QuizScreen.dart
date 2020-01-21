@@ -14,8 +14,13 @@ import 'package:quiz_app/ui/widgets/CustomAppBar.dart';
 class QuizScreen extends StatefulWidget {
   final List<QuestionModel> questions;
   final CategoryModel category;
+  final String difficulty;
 
-  const QuizScreen({@required this.questions, this.category});
+  const QuizScreen({
+    @required this.questions,
+    @required this.category,
+    @required this.difficulty,
+  });
 
   @override
   _QuizScreenState createState() => _QuizScreenState();
@@ -78,7 +83,8 @@ class _QuizScreenState extends State<QuizScreen> {
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
                       children: <Widget>[
-                        AnimatedProgressbar(value: (_currentIndex+1)/length),
+                        AnimatedProgressbar(
+                            value: (_currentIndex + 1) / length),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
@@ -191,6 +197,7 @@ class _QuizScreenState extends State<QuizScreen> {
           builder: (_) => QuizFinishedScreen(
             questions: widget.questions,
             answers: _answers,
+            difficulty: widget.difficulty,
           ),
         ),
       );

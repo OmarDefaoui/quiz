@@ -1,12 +1,31 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:quiz_app/models/QuestionModel.dart';
 import 'package:quiz_app/ui/screens/CheckAnswersScreen.dart';
+import 'package:quiz_app/ui/widgets/CustomAppBar.dart';
 
 class QuizFinishedScreen extends StatelessWidget {
   final List<QuestionModel> questions;
   final Map<int, dynamic> answers;
+  final String difficulty;
 
-  QuizFinishedScreen({@required this.questions, @required this.answers});
+  QuizFinishedScreen({
+    @required this.questions,
+    @required this.answers,
+    @required this.difficulty,
+  });
+
+  final TextStyle titleStyle = TextStyle(
+    color: Colors.black87,
+    fontSize: 16.0,
+    fontWeight: FontWeight.w500,
+  );
+  final TextStyle trailingStyle = TextStyle(
+    color: Colors.blue,
+    fontSize: 20.0,
+    fontWeight: FontWeight.bold,
+  );
+  double _height;
 
   @override
   Widget build(BuildContext context) {
@@ -14,17 +33,11 @@ class QuizFinishedScreen extends StatelessWidget {
     this.answers.forEach((index, value) {
       if (this.questions[index].correctAnswer == value) correct++;
     });
-    final TextStyle titleStyle = TextStyle(
-        color: Colors.black87, fontSize: 16.0, fontWeight: FontWeight.w500);
-    final TextStyle trailingStyle = TextStyle(
-        color: Theme.of(context).primaryColor,
-        fontSize: 20.0,
-        fontWeight: FontWeight.bold);
+    _height = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Result'),
-        elevation: 0,
+      appBar: CustomAppBar(
+        title: 'Result',
       ),
       body: Container(
         height: double.infinity,
@@ -40,74 +53,50 @@ class QuizFinishedScreen extends StatelessWidget {
           ),
         ),
         child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: <Widget>[
-              Card(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0)),
-                child: ListTile(
-                  contentPadding: const EdgeInsets.all(16.0),
-                  title: Text("Total Questions", style: titleStyle),
-                  trailing: Text("${questions.length}", style: trailingStyle),
-                ),
-              ),
-              SizedBox(height: 10.0),
-              Card(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0)),
-                child: ListTile(
-                  contentPadding: const EdgeInsets.all(16.0),
-                  title: Text("Score", style: titleStyle),
-                  trailing: Text("${correct / questions.length * 100}%",
-                      style: trailingStyle),
-                ),
-              ),
-              SizedBox(height: 10.0),
-              Card(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0)),
-                child: ListTile(
-                  contentPadding: const EdgeInsets.all(16.0),
-                  title: Text("Correct Answers", style: titleStyle),
-                  trailing: Text("$correct/${questions.length}",
-                      style: trailingStyle),
-                ),
-              ),
-              SizedBox(height: 10.0),
-              Card(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0)),
-                child: ListTile(
-                  contentPadding: const EdgeInsets.all(16.0),
-                  title: Text("Incorrect Answers", style: titleStyle),
-                  trailing: Text(
-                      "${questions.length - correct}/${questions.length}",
-                      style: trailingStyle),
-                ),
-              ),
-              SizedBox(height: 20.0),
+              _detailCard(
+                  title: 'Total questions', detail: '${questions.length}'),
+              _detailCard(
+                  title: 'Category', detail: '${questions[0].categoryName}'),
+              _detailCard(title: 'Difficulty', detail: '${_getDifficulty()}'),
+              _detailCard(
+                  title: 'Score',
+                  detail:
+                      '${(correct / questions.length * 100).toStringAsPrecision(3)}%'),
+              _detailCard(
+                  title: 'Correct answers',
+                  detail: '$correct/${questions.length}'),
+              _detailCard(
+                  title: 'Incorrect answers',
+                  detail: '${questions.length - correct}/${questions.length}'),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   RaisedButton(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0, vertical: 20.0),
+                      horizontal: 16.0,
+                      vertical: 20.0,
+                    ),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
+                      borderRadius: BorderRadius.circular(15.0),
                     ),
                     color: Theme.of(context).accentColor.withOpacity(0.8),
-                    child: Text("Goto Home"),
+                    child: Text("Home"),
                     onPressed: () => Navigator.pop(context),
                   ),
                   RaisedButton(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0, vertical: 20.0),
+                      horizontal: 16.0,
+                      vertical: 20.0,
+                    ),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
+                      borderRadius: BorderRadius.circular(15.0),
                     ),
                     color: Theme.of(context).primaryColor,
-                    child: Text("Check Answers"),
+                    child: Text("Check answers"),
                     onPressed: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
@@ -126,5 +115,71 @@ class QuizFinishedScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _detailCard({String title, String detail}) {
+    return Column(
+      children: <Widget>[
+        Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          child: Container(
+            height: _height * 0.13,
+            padding: EdgeInsets.all(16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  title,
+                  maxLines: 1,
+                  style: titleStyle,
+                ),
+                Expanded(
+                  child: Container(
+                    alignment: Alignment.centerRight,
+                    margin: EdgeInsets.only(left: 20),
+                    child: AutoSizeText(
+                      detail,
+                      style: trailingStyle,
+                      maxLines: 2,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          // child: ListTile(
+          //   contentPadding: const EdgeInsets.all(16.0),
+          //   title: Text(
+          //     title,
+          //     maxLines: 1,
+          //     style: titleStyle,
+          //   ),
+          //   trailing: AutoSizeText(
+          //     detail,
+          //     style: trailingStyle,
+          //     maxLines: 1,
+          //     presetFontSizes: [20, 12, 8],
+          //   ),
+          // ),
+        ),
+        SizedBox(height: 10.0),
+      ],
+    );
+  }
+
+  String _getDifficulty() {
+    switch (difficulty) {
+      case 'easy':
+        return 'Easy';
+      case 'medium':
+        return 'Medium';
+      case 'hard':
+        return 'Hard';
+      default:
+        return 'Any';
+    }
   }
 }

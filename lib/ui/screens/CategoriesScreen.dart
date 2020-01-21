@@ -62,7 +62,7 @@ class CategoriesScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Icon(category.icon),
-          SizedBox(height: 5.0),
+          SizedBox(height: 10.0),
           AutoSizeText(
             category.name,
             minFontSize: 10.0,
