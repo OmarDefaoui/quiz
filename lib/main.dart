@@ -9,8 +9,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Quiz',
       theme: ThemeData(
-        primarySwatch: Colors.pink,
-        accentColor: Colors.indigo,
+        primarySwatch: Colors.blue,
+        accentColor: Colors.pink,
         fontFamily: "Montserrat",
         buttonColor: Colors.pink,
         canvasColor: Colors.transparent,

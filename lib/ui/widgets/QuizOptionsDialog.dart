@@ -50,7 +50,7 @@ class _QuizOptionsDialogState extends State<QuizOptionsDialog> {
                 ),
               ),
               SizedBox(height: 10.0),
-              Text("Select Total Number of Questions"),
+              Text("Select number of questions"),
               SizedBox(
                 width: double.infinity,
                 child: Wrap(
@@ -59,61 +59,16 @@ class _QuizOptionsDialogState extends State<QuizOptionsDialog> {
                   runSpacing: 16.0,
                   spacing: 16.0,
                   children: <Widget>[
-                    ActionChip(
-                      label: Text("10"),
-                      labelStyle: TextStyle(
-                        color: Colors.white,
-                      ),
-                      backgroundColor: _noOfQuestions == 10
-                          ? Colors.indigo
-                          : Colors.grey.shade600,
-                      onPressed: () => _selectNumberOfQuestions(10),
-                    ),
-                    ActionChip(
-                      label: Text("20"),
-                      labelStyle: TextStyle(
-                        color: Colors.white,
-                      ),
-                      backgroundColor: _noOfQuestions == 20
-                          ? Colors.indigo
-                          : Colors.grey.shade600,
-                      onPressed: () => _selectNumberOfQuestions(20),
-                    ),
-                    ActionChip(
-                      label: Text("30"),
-                      labelStyle: TextStyle(
-                        color: Colors.white,
-                      ),
-                      backgroundColor: _noOfQuestions == 30
-                          ? Colors.indigo
-                          : Colors.grey.shade600,
-                      onPressed: () => _selectNumberOfQuestions(30),
-                    ),
-                    ActionChip(
-                      label: Text("40"),
-                      labelStyle: TextStyle(
-                        color: Colors.white,
-                      ),
-                      backgroundColor: _noOfQuestions == 40
-                          ? Colors.indigo
-                          : Colors.grey.shade600,
-                      onPressed: () => _selectNumberOfQuestions(40),
-                    ),
-                    ActionChip(
-                      label: Text("50"),
-                      labelStyle: TextStyle(
-                        color: Colors.white,
-                      ),
-                      backgroundColor: _noOfQuestions == 50
-                          ? Colors.indigo
-                          : Colors.grey.shade600,
-                      onPressed: () => _selectNumberOfQuestions(50),
-                    ),
+                    _questionActionChip(10),
+                    _questionActionChip(20),
+                    _questionActionChip(30),
+                    _questionActionChip(40),
+                    _questionActionChip(50),
                   ],
                 ),
               ),
               SizedBox(height: 20.0),
-              Text("Select Difficulty"),
+              Text("Select difficulty"),
               SizedBox(
                 width: double.infinity,
                 child: Wrap(
@@ -122,47 +77,10 @@ class _QuizOptionsDialogState extends State<QuizOptionsDialog> {
                   runSpacing: 16.0,
                   spacing: 16.0,
                   children: <Widget>[
-                    SizedBox(width: 0.0),
-                    ActionChip(
-                      label: Text("Any"),
-                      labelStyle: TextStyle(
-                        color: Colors.white,
-                      ),
-                      backgroundColor: _difficulty == null
-                          ? Colors.indigo
-                          : Colors.grey.shade600,
-                      onPressed: () => _selectDifficulty(null),
-                    ),
-                    ActionChip(
-                      label: Text("Easy"),
-                      labelStyle: TextStyle(
-                        color: Colors.white,
-                      ),
-                      backgroundColor: _difficulty == "easy"
-                          ? Colors.indigo
-                          : Colors.grey.shade600,
-                      onPressed: () => _selectDifficulty("easy"),
-                    ),
-                    ActionChip(
-                      label: Text("Medium"),
-                      labelStyle: TextStyle(
-                        color: Colors.white,
-                      ),
-                      backgroundColor: _difficulty == "medium"
-                          ? Colors.indigo
-                          : Colors.grey.shade600,
-                      onPressed: () => _selectDifficulty("medium"),
-                    ),
-                    ActionChip(
-                      label: Text("Hard"),
-                      labelStyle: TextStyle(
-                        color: Colors.white,
-                      ),
-                      backgroundColor: _difficulty == "hard"
-                          ? Colors.indigo
-                          : Colors.grey.shade600,
-                      onPressed: () => _selectDifficulty("hard"),
-                    ),
+                    _difficultyActionChip('Any', null),
+                    _difficultyActionChip('Easy', 'easy'),
+                    _difficultyActionChip('Medium', 'medium'),
+                    _difficultyActionChip('Hard', 'hard'),
                   ],
                 ),
               ),
@@ -178,6 +96,30 @@ class _QuizOptionsDialogState extends State<QuizOptionsDialog> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _questionActionChip(int number) {
+    return ActionChip(
+      label: Text("$number"),
+      labelStyle: TextStyle(
+        color: Colors.white,
+      ),
+      backgroundColor:
+          _noOfQuestions == number ? Colors.indigo : Colors.grey.shade600,
+      onPressed: () => _selectNumberOfQuestions(number),
+    );
+  }
+
+  Widget _difficultyActionChip(String text, String difficulty) {
+    return ActionChip(
+      label: Text(text),
+      labelStyle: TextStyle(
+        color: Colors.white,
+      ),
+      backgroundColor:
+          _difficulty == difficulty ? Colors.indigo : Colors.grey.shade600,
+      onPressed: () => _selectDifficulty(difficulty),
     );
   }
 
@@ -202,11 +144,14 @@ class _QuizOptionsDialogState extends State<QuizOptionsDialog> {
           await getQuestions(widget.category, _noOfQuestions, _difficulty);
       Navigator.pop(context);
       if (questions.length < 1) {
-        Navigator.of(context).push(MaterialPageRoute(
+        Navigator.of(context).push(
+          MaterialPageRoute(
             builder: (_) => ErrorScreen(
-                  message:
-                      "There are not enough questions in the category, with the options you selected.",
-                )));
+              message:
+                  "There are not enough questions in the category, with the options you selected.",
+            ),
+          ),
+        );
         return;
       }
       Navigator.push(
@@ -224,7 +169,7 @@ class _QuizOptionsDialogState extends State<QuizOptionsDialog> {
         MaterialPageRoute(
           builder: (_) => ErrorScreen(
             message:
-                "Can't reach the servers, \n Please check your internet connection.",
+                "Can't reach the server, \n Please check your internet connection.",
           ),
         ),
       );
@@ -239,8 +184,5 @@ class _QuizOptionsDialogState extends State<QuizOptionsDialog> {
         ),
       );
     }
-    setState(() {
-      processing = false;
-    });
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_app/ui/widgets/CustomAppBar.dart';
 
 class ErrorScreen extends StatelessWidget {
   final String message;
@@ -8,8 +9,8 @@ class ErrorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Error'),
+      appBar: CustomAppBar(
+        title: 'Error',
       ),
       body: Container(
         height: double.infinity,
@@ -28,6 +29,7 @@ class ErrorScreen extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: Center(
             child: Card(
+              elevation: 8,
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
@@ -37,15 +39,16 @@ class ErrorScreen extends StatelessWidget {
                       message,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.red),
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.red,
+                      ),
                     ),
                     SizedBox(height: 20.0),
                     RaisedButton(
                       child: Text("Try Again"),
                       onPressed: () => Navigator.pop(context),
-                    )
+                    ),
                   ],
                 ),
               ),
