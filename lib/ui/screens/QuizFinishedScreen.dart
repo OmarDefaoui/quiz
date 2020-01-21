@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:quiz_app/models/OptionModel.dart';
 import 'package:quiz_app/models/QuestionModel.dart';
 import 'package:quiz_app/ui/screens/CheckAnswersScreen.dart';
 import 'package:quiz_app/ui/widgets/CustomAppBar.dart';
@@ -7,12 +8,12 @@ import 'package:quiz_app/ui/widgets/CustomAppBar.dart';
 class QuizFinishedScreen extends StatelessWidget {
   final List<QuestionModel> questions;
   final Map<int, dynamic> answers;
-  final String difficulty;
+  final OptionModel optionModel;
 
   QuizFinishedScreen({
     @required this.questions,
     @required this.answers,
-    @required this.difficulty,
+    @required this.optionModel,
   });
 
   final TextStyle titleStyle = TextStyle(
@@ -60,8 +61,9 @@ class QuizFinishedScreen extends StatelessWidget {
               _detailCard(
                   title: 'Total questions', detail: '${questions.length}'),
               _detailCard(
-                  title: 'Category', detail: '${questions[0].categoryName}'),
+                  title: 'Category', detail: '${optionModel.category.name}'),
               _detailCard(title: 'Difficulty', detail: '${_getDifficulty()}'),
+              _detailCard(title: 'Type', detail: '${_getType()}'),
               _detailCard(
                   title: 'Score',
                   detail:
@@ -149,21 +151,6 @@ class QuizFinishedScreen extends StatelessWidget {
               ],
             ),
           ),
-
-          // child: ListTile(
-          //   contentPadding: const EdgeInsets.all(16.0),
-          //   title: Text(
-          //     title,
-          //     maxLines: 1,
-          //     style: titleStyle,
-          //   ),
-          //   trailing: AutoSizeText(
-          //     detail,
-          //     style: trailingStyle,
-          //     maxLines: 1,
-          //     presetFontSizes: [20, 12, 8],
-          //   ),
-          // ),
         ),
         SizedBox(height: 10.0),
       ],
@@ -171,13 +158,24 @@ class QuizFinishedScreen extends StatelessWidget {
   }
 
   String _getDifficulty() {
-    switch (difficulty) {
+    switch (optionModel.difficulty) {
       case 'easy':
         return 'Easy';
       case 'medium':
         return 'Medium';
       case 'hard':
         return 'Hard';
+      default:
+        return 'Any';
+    }
+  }
+
+  String _getType() {
+    switch (optionModel.type) {
+      case 'multiple':
+        return 'Multiple choice';
+      case 'boolean':
+        return 'True / false';
       default:
         return 'Any';
     }

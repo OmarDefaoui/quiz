@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:html_unescape/html_unescape.dart';
-import 'package:quiz_app/models/CategoryModel.dart';
+import 'package:quiz_app/models/OptionModel.dart';
 import 'package:quiz_app/models/QuestionModel.dart';
 import 'package:quiz_app/ui/screens/QuizFinishedScreen.dart';
 import 'package:quiz_app/ui/widgets/AnimatedProgressbar.dart';
@@ -13,13 +13,11 @@ import 'package:quiz_app/ui/widgets/CustomAppBar.dart';
 
 class QuizScreen extends StatefulWidget {
   final List<QuestionModel> questions;
-  final CategoryModel category;
-  final String difficulty;
+  final OptionModel optionModel;
 
   const QuizScreen({
     @required this.questions,
-    @required this.category,
-    @required this.difficulty,
+    @required this.optionModel,
   });
 
   @override
@@ -59,7 +57,7 @@ class _QuizScreenState extends State<QuizScreen> {
       child: Scaffold(
         key: _key,
         appBar: CustomAppBar(
-          title: widget.category.name,
+          title: widget.optionModel.category.name,
         ),
         body: Container(
           color: Colors.white,
@@ -197,7 +195,7 @@ class _QuizScreenState extends State<QuizScreen> {
           builder: (_) => QuizFinishedScreen(
             questions: widget.questions,
             answers: _answers,
-            difficulty: widget.difficulty,
+            optionModel: widget.optionModel,
           ),
         ),
       );

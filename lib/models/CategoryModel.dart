@@ -18,7 +18,7 @@ final List<CategoryModel> categories = [
   CategoryModel(16, "Board Games", FontAwesomeIcons.chessBoard),
   CategoryModel(17, "Science & Nature", FontAwesomeIcons.microscope),
   CategoryModel(18, "Computer", FontAwesomeIcons.laptopCode),
-  CategoryModel(19, "Maths", FontAwesomeIcons.sortNumericDown),
+  CategoryModel(19, "Mathematics", FontAwesomeIcons.sortNumericDown),
   CategoryModel(20, "Mythology", FontAwesomeIcons.personBooth),
   CategoryModel(21, "Sports", FontAwesomeIcons.footballBall),
   CategoryModel(22, "Geography", FontAwesomeIcons.mountain),
@@ -31,5 +31,5 @@ final List<CategoryModel> categories = [
   CategoryModel(29, "Comics", FontAwesomeIcons.teeth),
   CategoryModel(30, "Gadgets", FontAwesomeIcons.mobileAlt),
   CategoryModel(31, "Japanese Anime & Manga", FontAwesomeIcons.bookReader),
-  CategoryModel(32, "Cartoon & Animation", FontAwesomeIcons.adobe),
+  CategoryModel(32, "Cartoon & Animations", FontAwesomeIcons.adobe),
 ];
