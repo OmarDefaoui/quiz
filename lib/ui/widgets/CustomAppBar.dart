@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:android_intent/android_intent.dart';
 import 'package:flutter/material.dart';
-import 'package:quiz_app/Constants/Constants.dart';
-import 'package:quiz_app/models/PopUpMenuItems.dart';
+import 'package:quiz/Constants/Constants.dart';
+import 'package:quiz/models/PopUpMenuItems.dart';
 import 'package:share/share.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {

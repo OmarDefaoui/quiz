@@ -1,9 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:quiz_app/models/OptionModel.dart';
-import 'package:quiz_app/models/QuestionModel.dart';
-import 'package:quiz_app/ui/screens/CheckAnswersScreen.dart';
-import 'package:quiz_app/ui/widgets/CustomAppBar.dart';
+import 'package:quiz/models/OptionModel.dart';
+import 'package:quiz/models/QuestionModel.dart';
+import 'package:quiz/ui/screens/CheckAnswersScreen.dart';
+import 'package:quiz/ui/widgets/CustomAppBar.dart';
 
 class QuizFinishedScreen extends StatelessWidget {
   final List<QuestionModel> questions;

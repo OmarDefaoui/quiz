@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:quiz_app/models/OptionModel.dart';
-import 'package:quiz_app/models/QuestionModel.dart';
+import 'package:quiz/models/OptionModel.dart';
+import 'package:quiz/models/QuestionModel.dart';
 
 const String baseUrl = "https://opentdb.com/api.php";
 

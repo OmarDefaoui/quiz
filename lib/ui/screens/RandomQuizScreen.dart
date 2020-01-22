@@ -3,17 +3,21 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:html_unescape/html_unescape.dart';
-import 'package:quiz_app/models/CategoryModel.dart';
-import 'package:quiz_app/models/OptionModel.dart';
+import 'package:quiz/models/CategoryModel.dart';
+import 'package:quiz/models/OptionModel.dart';
 import 'dart:io';
-import 'package:quiz_app/models/QuestionModel.dart';
-import 'package:quiz_app/resources/ApiProvider.dart';
-import 'package:quiz_app/ui/screens/ErrorScreen.dart';
-import 'package:quiz_app/ui/screens/QuizFinishedScreen.dart';
-import 'package:quiz_app/ui/widgets/AnimatedProgressbar.dart';
-import 'package:quiz_app/ui/widgets/ClipShadowPath.dart';
+import 'package:quiz/models/QuestionModel.dart';
+import 'package:quiz/resources/ApiProvider.dart';
+import 'package:quiz/ui/screens/ErrorScreen.dart';
+import 'package:quiz/ui/screens/QuizFinishedScreen.dart';
+import 'package:quiz/ui/widgets/AnimatedProgressbar.dart';
+import 'package:quiz/ui/widgets/ClipShadowPath.dart';
 
 class RandomQuizScreen extends StatefulWidget {
+  final VoidCallback goToCategoriesScreen;
+
+  RandomQuizScreen({this.goToCategoriesScreen});
+
   @override
   _RandomQuizScreenState createState() => _RandomQuizScreenState();
 }
@@ -192,6 +196,8 @@ class _RandomQuizScreenState extends State<RandomQuizScreen> {
         _currentIndex++;
       });
     } else {
+      _goToCategoriesScreen();
+
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (_) => QuizFinishedScreen(
@@ -217,6 +223,7 @@ class _RandomQuizScreenState extends State<RandomQuizScreen> {
     try {
       List<QuestionModel> questions = await getRandomQuestions();
       if (questions.length < 1) {
+        _goToCategoriesScreen();
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (_) => ErrorScreen(
@@ -235,6 +242,7 @@ class _RandomQuizScreenState extends State<RandomQuizScreen> {
       return;
     } on SocketException catch (_) {
       print('on socket exception');
+      _goToCategoriesScreen();
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -247,6 +255,7 @@ class _RandomQuizScreenState extends State<RandomQuizScreen> {
     } catch (e) {
       print('error');
       print(e.message);
+      _goToCategoriesScreen();
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -256,5 +265,9 @@ class _RandomQuizScreenState extends State<RandomQuizScreen> {
         ),
       );
     }
+  }
+
+  _goToCategoriesScreen(){
+    widget.goToCategoriesScreen();
   }
 }

@@ -1,11 +1,11 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:quiz_app/models/CategoryModel.dart';
-import 'package:quiz_app/models/OptionModel.dart';
-import 'package:quiz_app/models/QuestionModel.dart';
-import 'package:quiz_app/resources/ApiProvider.dart';
-import 'package:quiz_app/ui/screens/ErrorScreen.dart';
-import 'package:quiz_app/ui/screens/QuizScreen.dart';
+import 'package:quiz/models/CategoryModel.dart';
+import 'package:quiz/models/OptionModel.dart';
+import 'package:quiz/models/QuestionModel.dart';
+import 'package:quiz/resources/ApiProvider.dart';
+import 'package:quiz/ui/screens/ErrorScreen.dart';
+import 'package:quiz/ui/screens/QuizScreen.dart';
 
 class QuizOptionsDialog extends StatefulWidget {
   final CategoryModel category;

@@ -1,4 +1,4 @@
-import 'package:quiz_app/models/CategoryModel.dart';
+import 'package:quiz/models/CategoryModel.dart';
 
 class OptionModel {
   final String difficulty, type;

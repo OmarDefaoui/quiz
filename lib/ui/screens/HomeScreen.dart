@@ -1,8 +1,8 @@
 import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
 import 'package:flutter/material.dart';
-import 'package:quiz_app/ui/screens/CategoriesScreen.dart';
-import 'package:quiz_app/ui/screens/RandomQuizScreen.dart';
-import 'package:quiz_app/ui/widgets/CustomAppBar.dart';
+import 'package:quiz/ui/screens/CategoriesScreen.dart';
+import 'package:quiz/ui/screens/RandomQuizScreen.dart';
+import 'package:quiz/ui/widgets/CustomAppBar.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -10,11 +10,16 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  PageController _pageController;
+  static PageController _pageController;
   int _currentTab = 0;
   static var _tabPages = <Widget>[
     CategoriesScreen(),
-    RandomQuizScreen(),
+    RandomQuizScreen(
+      goToCategoriesScreen: () {
+        FancyBottomNavigationState fState = bottomNavigationKey.currentState;
+        fState.setPage(0);
+      },
+    ),
   ];
   static var _tabs = <TabData>[
     TabData(
@@ -26,6 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
       title: "Random",
     ),
   ];
+  static GlobalKey bottomNavigationKey = GlobalKey();
 
   @override
   void initState() {
@@ -56,6 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: _tabPages,
       ),
       bottomNavigationBar: FancyBottomNavigation(
+        key: bottomNavigationKey,
         initialSelection: _currentTab,
         tabs: _tabs,
         barBackgroundColor: Theme.of(context).primaryColor,

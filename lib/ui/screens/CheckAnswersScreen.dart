@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:html_unescape/html_unescape.dart';
-import 'package:quiz_app/models/QuestionModel.dart';
-import 'package:quiz_app/ui/widgets/ClipShadowPath.dart';
-import 'package:quiz_app/ui/widgets/CustomAppBar.dart';
+import 'package:quiz/models/QuestionModel.dart';
+import 'package:quiz/ui/widgets/ClipShadowPath.dart';
+import 'package:quiz/ui/widgets/CustomAppBar.dart';
 
 class CheckAnswersScreen extends StatelessWidget {
   final List<QuestionModel> questions;

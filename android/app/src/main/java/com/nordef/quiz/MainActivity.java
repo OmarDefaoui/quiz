@@ -1,4 +1,4 @@
-package com.nordef.quiz_app;
+package com.nordef.quiz;
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity;

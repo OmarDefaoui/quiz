@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quiz_app/ui/widgets/CustomAppBar.dart';
+import 'package:quiz/ui/widgets/CustomAppBar.dart';
 
 class ErrorScreen extends StatelessWidget {
   final String message;
