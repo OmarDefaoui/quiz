@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:quiz/models/CategoryModel.dart';
 import 'package:quiz/models/OptionModel.dart';
 import 'package:quiz/models/QuestionModel.dart';
-import 'package:quiz/resources/ApiProvider.dart';
+import 'package:quiz/utilities/ApiProvider.dart';
 import 'package:quiz/ui/screens/ErrorScreen.dart';
 import 'package:quiz/ui/screens/QuizScreen.dart';
 

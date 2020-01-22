@@ -1,16 +1,19 @@
 import 'dart:math';
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:html_unescape/html_unescape.dart';
+import 'package:quiz/Constants/ApiKey.dart';
 import 'package:quiz/models/OptionModel.dart';
 import 'package:quiz/models/QuestionModel.dart';
 import 'package:quiz/ui/screens/QuizFinishedScreen.dart';
 import 'package:quiz/ui/widgets/AnimatedProgressbar.dart';
 import 'package:quiz/ui/widgets/ClipShadowPath.dart';
 import 'package:quiz/ui/widgets/CustomAppBar.dart';
+import 'package:quiz/utilities/InterstitialAd.dart';
 
 class QuizScreen extends StatefulWidget {
   final List<QuestionModel> questions;
@@ -37,10 +40,19 @@ class _QuizScreenState extends State<QuizScreen> {
   final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
   int length;
 
+  InterstitialAd _interstitialAd;
+
   @override
   void initState() {
     super.initState();
     length = widget.questions.length;
+    _initAds();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _interstitialAd?.dispose();
   }
 
   @override
@@ -231,5 +243,14 @@ class _QuizScreenState extends State<QuizScreen> {
             ],
           );
         });
+  }
+
+  _initAds() {
+    Future.delayed(const Duration(seconds: 2), () {
+      FirebaseAdMob.instance.initialize(appId: admobAppId);
+      _interstitialAd = createInterstitialAd(2)
+        ..load()
+        ..show();
+    });
   }
 }
