@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
@@ -94,12 +95,13 @@ class _QuizScreenState extends State<QuizScreen> {
                             ),
                             SizedBox(width: 16.0),
                             Expanded(
-                              child: Text(
+                              child: AutoSizeText(
                                 HtmlUnescape().convert(
                                   widget.questions[_currentIndex].question,
                                 ),
                                 softWrap: true,
                                 style: _questionStyle,
+                                maxLines: 4,
                               ),
                             ),
                           ],
@@ -135,22 +137,25 @@ class _QuizScreenState extends State<QuizScreen> {
                 child: Card(
                   elevation: 0,
                   color: Colors.white,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      ...options.map(
-                        (option) => RadioListTile(
-                          title: Text(HtmlUnescape().convert("$option")),
-                          groupValue: _answers[_currentIndex],
-                          value: option,
-                          onChanged: (value) {
-                            setState(() {
-                              _answers[_currentIndex] = option;
-                            });
-                          },
+                  child: SingleChildScrollView(
+                    physics: BouncingScrollPhysics(),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        ...options.map(
+                          (option) => RadioListTile(
+                            title: Text(HtmlUnescape().convert("$option")),
+                            groupValue: _answers[_currentIndex],
+                            value: option,
+                            onChanged: (value) {
+                              setState(() {
+                                _answers[_currentIndex] = option;
+                              });
+                            },
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),

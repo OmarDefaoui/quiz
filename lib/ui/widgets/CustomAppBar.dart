@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:android_intent/android_intent.dart';
+import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/material.dart';
 import 'package:quiz/Constants/Constants.dart';
 import 'package:quiz/models/PopUpMenuItems.dart';
-import 'package:share/share.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -22,7 +22,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         title,
       ),
       centerTitle: false,
-      backgroundColor: Colors.blue,
+      backgroundColor: Theme.of(context).primaryColor,
       actions: <Widget>[
         PopupMenuButton<PopUpMenuItems>(
           onSelected: (item) {
@@ -62,10 +62,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         }
         break;
       case 'Share':
-        Share.share(
-          shareBody,
-          subject: shareSubject,
-        );
+        Share.text(shareSubject, shareBody, 'text/plain');
         break;
       case 'Rate':
         if (Platform.isAndroid) {

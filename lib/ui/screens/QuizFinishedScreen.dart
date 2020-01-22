@@ -1,9 +1,14 @@
+import 'dart:io';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:quiz/Constants/Constants.dart';
 import 'package:quiz/models/OptionModel.dart';
 import 'package:quiz/models/QuestionModel.dart';
 import 'package:quiz/ui/screens/CheckAnswersScreen.dart';
 import 'package:quiz/ui/widgets/CustomAppBar.dart';
+import 'package:screenshot/screenshot.dart';
+import 'package:esys_flutter_share/esys_flutter_share.dart';
 
 class QuizFinishedScreen extends StatelessWidget {
   final List<QuestionModel> questions;
@@ -27,6 +32,7 @@ class QuizFinishedScreen extends StatelessWidget {
     fontWeight: FontWeight.bold,
   );
   double _height;
+  ScreenshotController screenshotController = ScreenshotController();
 
   @override
   Widget build(BuildContext context) {
@@ -58,22 +64,33 @@ class QuizFinishedScreen extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: <Widget>[
-              _detailCard(
-                  title: 'Total questions', detail: '${questions.length}'),
-              _detailCard(
-                  title: 'Category', detail: '${optionModel.category.name}'),
-              _detailCard(title: 'Difficulty', detail: '${_getDifficulty()}'),
-              _detailCard(title: 'Type', detail: '${_getType()}'),
-              _detailCard(
-                  title: 'Score',
-                  detail:
-                      '${(correct / questions.length * 100).toStringAsPrecision(3)}%'),
-              _detailCard(
-                  title: 'Correct answers',
-                  detail: '$correct/${questions.length}'),
-              _detailCard(
-                  title: 'Incorrect answers',
-                  detail: '${questions.length - correct}/${questions.length}'),
+              Screenshot(
+                controller: screenshotController,
+                child: Column(
+                  children: <Widget>[
+                    _detailCard(
+                        title: 'Total questions',
+                        detail: '${questions.length}'),
+                    _detailCard(
+                        title: 'Category',
+                        detail: '${optionModel.category.name}'),
+                    _detailCard(
+                        title: 'Difficulty', detail: '${_getDifficulty()}'),
+                    _detailCard(title: 'Type', detail: '${_getType()}'),
+                    _detailCard(
+                        title: 'Score',
+                        detail:
+                            '${(correct / questions.length * 100).toStringAsPrecision(3)}%'),
+                    _detailCard(
+                        title: 'Correct answers',
+                        detail: '$correct/${questions.length}'),
+                    _detailCard(
+                        title: 'Incorrect answers',
+                        detail:
+                            '${questions.length - correct}/${questions.length}'),
+                  ],
+                ),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -97,8 +114,20 @@ class QuizFinishedScreen extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15.0),
                     ),
+                    color: Theme.of(context).accentColor,
+                    child: Text("Share"),
+                    onPressed: () => _shareResult(),
+                  ),
+                  RaisedButton(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0,
+                      vertical: 20.0,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
                     color: Theme.of(context).primaryColor,
-                    child: Text("Check answers"),
+                    child: Text("Answers"),
                     onPressed: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
@@ -179,5 +208,21 @@ class QuizFinishedScreen extends StatelessWidget {
       default:
         return 'Any';
     }
+  }
+
+  _shareResult() {
+    screenshotController.capture().then((File image) async {
+      print("Capture Done");
+
+      try {
+        await Share.file('Title', 'quiz_result.png',
+            image.readAsBytesSync().buffer.asUint8List(), 'image/png',
+            text: '$shareBody');
+      } catch (e) {
+        print('error: $e');
+      }
+    }).catchError((onError) {
+      print(onError);
+    });
   }
 }
