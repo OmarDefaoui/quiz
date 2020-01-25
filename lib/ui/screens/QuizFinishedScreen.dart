@@ -215,7 +215,7 @@ class QuizFinishedScreen extends StatelessWidget {
       print("Capture Done");
 
       try {
-        await Share.file('Title', 'quiz_result.png',
+        await Share.file('Share result', 'quiz_result.png',
             image.readAsBytesSync().buffer.asUint8List(), 'image/png',
             text: '$shareBody');
       } catch (e) {
