@@ -20,7 +20,7 @@ Future<List<QuestionModel>> getQuestions(OptionModel optionModel) async {
   }
   print(url);
 
-  http.Response res = await http.get(url);
+  http.Response res = await http.get(Uri.parse(url));
   List<Map<String, dynamic>> questions =
       List<Map<String, dynamic>>.from(json.decode(res.body)["results"]);
   return QuestionModel.fromData(questions);
@@ -31,7 +31,7 @@ Future<List<QuestionModel>> getRandomQuestions() async {
   String url = "$baseUrl?amount=10";
   print(url);
 
-  http.Response res = await http.get(url);
+  http.Response res = await http.get(Uri.parse(url));
   List<Map<String, dynamic>> questions =
       List<Map<String, dynamic>>.from(json.decode(res.body)["results"]);
   return QuestionModel.fromData(questions);

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:quiz/models/CategoryModel.dart';
 import 'package:quiz/models/OptionModel.dart';
 import 'package:quiz/models/QuestionModel.dart';
+import 'package:quiz/ui/widgets/CustomRoundedButton.dart';
 import 'package:quiz/utilities/ApiProvider.dart';
 import 'package:quiz/ui/screens/ErrorScreen.dart';
 import 'package:quiz/ui/screens/QuizScreen.dart';
@@ -49,7 +50,7 @@ class _QuizOptionsDialogState extends State<QuizOptionsDialog> {
                 color: Colors.grey.shade200,
                 child: Text(
                   widget.category.name,
-                  style: Theme.of(context).textTheme.title.copyWith(),
+                  style: Theme.of(context).textTheme.headline6.copyWith(),
                 ),
               ),
               SizedBox(height: 10.0),
@@ -106,7 +107,7 @@ class _QuizOptionsDialogState extends State<QuizOptionsDialog> {
               SizedBox(height: 20.0),
               processing
                   ? CircularProgressIndicator()
-                  : RaisedButton(
+                  : CustomRoundedButton(
                       child: Text("Start Quiz"),
                       onPressed: _startQuiz,
                     ),

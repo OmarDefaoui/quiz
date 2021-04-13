@@ -1,11 +1,8 @@
 import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
-import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
-import 'package:quiz/Constants/ApiKey.dart';
 import 'package:quiz/ui/screens/CategoriesScreen.dart';
 import 'package:quiz/ui/screens/RandomQuizScreen.dart';
 import 'package:quiz/ui/widgets/CustomAppBar.dart';
-import 'package:quiz/utilities/InterstitialAd.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -36,12 +33,9 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
   static GlobalKey bottomNavigationKey = GlobalKey();
 
-  InterstitialAd _interstitialAd;
-
   @override
   void initState() {
     super.initState();
-    _initAds();
     _pageController = PageController();
   }
 
@@ -49,7 +43,6 @@ class _HomeScreenState extends State<HomeScreen> {
   void dispose() {
     super.dispose();
     _pageController.dispose();
-    _interstitialAd?.dispose();
   }
 
   @override
@@ -92,14 +85,5 @@ class _HomeScreenState extends State<HomeScreen> {
       return "Categories";
     else
       return "Random";
-  }
-
-  _initAds() {
-    Future.delayed(const Duration(seconds: 2), () {
-      FirebaseAdMob.instance.initialize(appId: admobAppId);
-      _interstitialAd = createInterstitialAd(1)
-        ..load()
-        ..show();
-    });
   }
 }

@@ -1,18 +1,18 @@
 import 'dart:math';
 
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:html_unescape/html_unescape.dart';
-import 'package:quiz/Constants/ApiKey.dart';
 import 'package:quiz/models/OptionModel.dart';
 import 'package:quiz/models/QuestionModel.dart';
 import 'package:quiz/ui/screens/QuizFinishedScreen.dart';
 import 'package:quiz/ui/widgets/AnimatedProgressbar.dart';
 import 'package:quiz/ui/widgets/ClipShadowPath.dart';
 import 'package:quiz/ui/widgets/CustomAppBar.dart';
+import 'package:quiz/ui/widgets/CustomRoundedButton.dart';
 import 'package:quiz/utilities/InterstitialAd.dart';
 
 class QuizScreen extends StatefulWidget {
@@ -41,6 +41,7 @@ class _QuizScreenState extends State<QuizScreen> {
   int length;
 
   InterstitialAd _interstitialAd;
+  bool _isAdLoaded = false;
 
   @override
   void initState() {
@@ -176,7 +177,7 @@ class _QuizScreenState extends State<QuizScreen> {
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   alignment: Alignment.bottomCenter,
-                  child: RaisedButton(
+                  child: CustomRoundedButton(
                     child: Text(_currentIndex == (widget.questions.length - 1)
                         ? "Submit"
                         : "Next"),
@@ -193,7 +194,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
   void _nextSubmit() {
     if (_answers[_currentIndex] == null) {
-      _key.currentState.showSnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
             "You must select an answer to continue.",
@@ -207,6 +208,15 @@ class _QuizScreenState extends State<QuizScreen> {
         _currentIndex++;
       });
     } else {
+      //show interstitial ad
+      if (_isAdLoaded)
+        try {
+          _interstitialAd.show();
+        } catch (e) {
+          print('error displaying mAd, error: $e');
+        }
+
+      //naviagte to result screen
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (_) => QuizFinishedScreen(
@@ -228,13 +238,13 @@ class _QuizScreenState extends State<QuizScreen> {
                 "Are you sure you want to quit the quiz? All your progress will be lost."),
             title: Text("Warning !"),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 child: Text("Yes"),
                 onPressed: () {
                   Navigator.pop(context, true);
                 },
               ),
-              FlatButton(
+              TextButton(
                 child: Text("No"),
                 onPressed: () {
                   Navigator.pop(context, false);
@@ -246,11 +256,8 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   _initAds() {
-    Future.delayed(const Duration(seconds: 2), () {
-      FirebaseAdMob.instance.initialize(appId: admobAppId);
-      _interstitialAd = createInterstitialAd(2)
-        ..load()
-        ..show();
-    });
+    _interstitialAd = createInterstitialAd(
+      onLoad: () => _isAdLoaded = true,
+    )..load();
   }
 }

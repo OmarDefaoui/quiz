@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quiz/ui/widgets/CustomAppBar.dart';
+import 'package:quiz/ui/widgets/CustomRoundedButton.dart';
 
 class ErrorScreen extends StatelessWidget {
   final String message;
@@ -45,7 +46,7 @@ class ErrorScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 20.0),
-                    RaisedButton(
+                    CustomRoundedButton(
                       child: Text("Try Again"),
                       onPressed: () => Navigator.pop(context),
                     ),

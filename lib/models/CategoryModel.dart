@@ -31,5 +31,5 @@ final List<CategoryModel> categories = [
   CategoryModel(29, "Comics", FontAwesomeIcons.teeth),
   CategoryModel(30, "Gadgets", FontAwesomeIcons.mobileAlt),
   CategoryModel(31, "Japanese Anime & Manga", FontAwesomeIcons.bookReader),
-  CategoryModel(32, "Cartoon & Animations", FontAwesomeIcons.adobe),
+  CategoryModel(32, "Cartoon & Animations", FontAwesomeIcons.film),
 ];

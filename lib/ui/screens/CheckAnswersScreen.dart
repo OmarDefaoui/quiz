@@ -4,6 +4,7 @@ import 'package:html_unescape/html_unescape.dart';
 import 'package:quiz/models/QuestionModel.dart';
 import 'package:quiz/ui/widgets/ClipShadowPath.dart';
 import 'package:quiz/ui/widgets/CustomAppBar.dart';
+import 'package:quiz/ui/widgets/CustomRoundedButton.dart';
 
 class CheckAnswersScreen extends StatelessWidget {
   final List<QuestionModel> questions;
@@ -69,7 +70,7 @@ class CheckAnswersScreen extends StatelessWidget {
     if (index == questions.length) {
       return Padding(
         padding: const EdgeInsets.only(top: 15),
-        child: RaisedButton(
+        child: CustomRoundedButton(
           child: Text("Done"),
           onPressed: () {
             Navigator.of(context)

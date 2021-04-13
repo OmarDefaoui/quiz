@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
@@ -94,39 +94,45 @@ class QuizFinishedScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  RaisedButton(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0,
-                      vertical: 20.0,
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0,
+                        vertical: 20.0,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      primary: Theme.of(context).accentColor.withOpacity(0.8),
                     ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
-                    color: Theme.of(context).accentColor.withOpacity(0.8),
                     child: Text("Home"),
                     onPressed: () => Navigator.pop(context),
                   ),
-                  RaisedButton(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0,
-                      vertical: 20.0,
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0,
+                        vertical: 20.0,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      primary: Theme.of(context).accentColor,
                     ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
-                    color: Theme.of(context).accentColor,
                     child: Text("Share"),
                     onPressed: () => _shareResult(),
                   ),
-                  RaisedButton(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0,
-                      vertical: 20.0,
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0,
+                        vertical: 20.0,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      primary: Theme.of(context).primaryColor,
                     ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
-                    color: Theme.of(context).primaryColor,
                     child: Text("Answers"),
                     onPressed: () {
                       Navigator.of(context).push(
@@ -211,12 +217,12 @@ class QuizFinishedScreen extends StatelessWidget {
   }
 
   _shareResult() {
-    screenshotController.capture().then((File image) async {
+    screenshotController.capture().then((Uint8List image) async {
       print("Capture Done");
 
       try {
         await Share.file('Share result', 'quiz_result.png',
-            image.readAsBytesSync().buffer.asUint8List(), 'image/png',
+            image.buffer.asUint8List(), 'image/png',
             text: '$shareBody');
       } catch (e) {
         print('error: $e');

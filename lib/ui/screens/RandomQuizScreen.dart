@@ -8,6 +8,7 @@ import 'package:quiz/models/CategoryModel.dart';
 import 'package:quiz/models/OptionModel.dart';
 import 'dart:io';
 import 'package:quiz/models/QuestionModel.dart';
+import 'package:quiz/ui/widgets/CustomRoundedButton.dart';
 import 'package:quiz/utilities/ApiProvider.dart';
 import 'package:quiz/ui/screens/ErrorScreen.dart';
 import 'package:quiz/ui/screens/QuizFinishedScreen.dart';
@@ -171,7 +172,7 @@ class _RandomQuizScreenState extends State<RandomQuizScreen> {
                       child: Container(
                         width: MediaQuery.of(context).size.width,
                         alignment: Alignment.bottomCenter,
-                        child: RaisedButton(
+                        child: CustomRoundedButton(
                           child: Text(
                             _currentIndex == (_length - 1) ? "Submit" : "Next",
                           ),
@@ -188,7 +189,7 @@ class _RandomQuizScreenState extends State<RandomQuizScreen> {
 
   void _nextSubmit() {
     if (_answers[_currentIndex] == null) {
-      _key.currentState.showSnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
             "You must select an answer to continue.",

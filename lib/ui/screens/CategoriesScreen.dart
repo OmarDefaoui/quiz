@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:quiz/models/CategoryModel.dart';
 import 'package:quiz/ui/widgets/QuizOptionsDialog.dart';
+import 'package:quiz/utilities/InterstitialAd.dart';
 
 class CategoriesScreen extends StatefulWidget {
   @override
@@ -10,36 +14,58 @@ class CategoriesScreen extends StatefulWidget {
 
 class _CategoriesScreenState extends State<CategoriesScreen>
     with AutomaticKeepAliveClientMixin {
+  BannerAd _bannerAd;
+  final Completer<BannerAd> bannerCompleter = Completer<BannerAd>();
+
+  @override
+  void initState() {
+    super.initState();
+    _initAds();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _bannerAd?.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return Container(
       decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Theme.of(context).primaryColor,
-              Theme.of(context).accentColor
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
+        gradient: LinearGradient(
+          colors: [
+            Theme.of(context).primaryColor,
+            Theme.of(context).accentColor
+          ],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
         ),
-      child: CustomScrollView(
-        physics: BouncingScrollPhysics(),
-        slivers: <Widget>[
-          SliverPadding(
-            padding: const EdgeInsets.all(16.0),
-            sliver: SliverGrid(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 1.2,
-                crossAxisSpacing: 10.0,
-                mainAxisSpacing: 10.0,
-              ),
-              delegate: SliverChildBuilderDelegate(
-                _buildCategoryItem,
-                childCount: categories.length,
-              ),
+      ),
+      child: Column(
+        children: [
+          bannerAdBox(),
+          Expanded(
+            child: CustomScrollView(
+              physics: BouncingScrollPhysics(),
+              slivers: <Widget>[
+                SliverPadding(
+                  padding: const EdgeInsets.all(16.0),
+                  sliver: SliverGrid(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 1.2,
+                      crossAxisSpacing: 10.0,
+                      mainAxisSpacing: 10.0,
+                    ),
+                    delegate: SliverChildBuilderDelegate(
+                      _buildCategoryItem,
+                      childCount: categories.length,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -82,6 +108,44 @@ class _CategoriesScreenState extends State<CategoriesScreen>
         builder: (_) => QuizOptionsDialog(category: category),
         onClosing: () {},
       ),
+    );
+  }
+
+  _initAds() {
+    _bannerAd = createBannerAd(
+      onLoad: (BannerAd ad) => bannerCompleter.complete(ad),
+    )..load();
+  }
+
+  Widget bannerAdBox() {
+    return FutureBuilder<BannerAd>(
+      future: bannerCompleter.future,
+      builder: (BuildContext context, AsyncSnapshot<BannerAd> snapshot) {
+        Widget child;
+
+        switch (snapshot.connectionState) {
+          case ConnectionState.none:
+          case ConnectionState.waiting:
+          case ConnectionState.active:
+            print('mad active');
+            child = SizedBox.shrink();
+            break;
+          case ConnectionState.done:
+            if (snapshot.hasData) {
+              print('mad goooood');
+              child = Container(
+                width: _bannerAd.size.width.toDouble(),
+                height: _bannerAd.size.height.toDouble(),
+                child: AdWidget(ad: _bannerAd),
+              );
+            } else {
+              print('mad else');
+              child = SizedBox.shrink();
+            }
+        }
+
+        return child;
+      },
     );
   }
 
