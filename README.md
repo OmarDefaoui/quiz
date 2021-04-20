@@ -4,10 +4,10 @@ Quiz is a free app that has a large varities of quizzes (more than four thousand
 
 This quiz app is a fun way to practise, improve, and test your knowledge. Learn, discover new things, and test yourself with a wide variety of quizzes in different categories.
 
-★ Good quality quiz app !
-★ Best selection of quiz questions !
-★ Optimized for your screen size !
-★ Browse quiz by Category or by Search!
+★ Good quality quiz app !<br>
+★ Best selection of quiz questions !<br>
+★ Optimized for your screen size !<br>
+★ Browse quiz by Category or by Search!<br>
 
 Every continent has a city with what name? What percentage of the world's population has red hair? How many eggs do octopuses lay? In this quiz app you will learn new facts and things and test your level of knowledge.
 
